@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useStore } from "./StoreProvider";
 import { HeartIcon } from "./WishButton";
+import { startProgress } from "./NavProgress";
 import { METALS, OCCASIONS } from "@/lib/constants";
 import { slugify } from "@/lib/pricing";
 import type { Category } from "@/lib/types";
@@ -29,7 +30,7 @@ function SearchBox() {
   const [q, setQ] = useState(sp.get("q") ?? "");
   useEffect(() => { setQ(sp.get("q") ?? ""); }, [sp]);
   return (
-    <form className="search" role="search" onSubmit={(e) => { e.preventDefault(); router.push(q.trim() ? `/shop?q=${encodeURIComponent(q.trim())}` : "/shop"); }}>
+    <form className="search" role="search" onSubmit={(e) => { e.preventDefault(); startProgress(); router.push(q.trim() ? `/shop?q=${encodeURIComponent(q.trim())}` : "/shop"); }}>
       <label htmlFor="q" className="sr">Search jewellery</label>
       <input id="q" name="q" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search rings, 21K bangles, diamond sets, SKU…" autoComplete="off" />
       <button type="submit" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg></button>
@@ -97,7 +98,7 @@ export default function Header({ rates, categories }: { rates: Record<string, nu
             ))}
           </ul></div>
           {mega && (
-            <div className="mega" onMouseEnter={() => timer.current && clearTimeout(timer.current)}>
+            <div className="mega" onClick={(e) => { if ((e.target as HTMLElement).closest("a")) setMega(false); }} onMouseEnter={() => timer.current && clearTimeout(timer.current)}>
               <div className="wrap">
                 <div><h4>By type</h4><ul>{categories.slice(0, half).map((c) => <li key={c.slug}><Link href={`/jewellery/${c.slug}`}>{c.name}</Link></li>)}</ul></div>
                 <div><h4>More</h4><ul>{categories.slice(half).map((c) => <li key={c.slug}><Link href={`/jewellery/${c.slug}`}>{c.name}</Link></li>)}<li><Link href="/new-arrivals">New arrivals</Link></li><li><Link href="/best-sellers">Best sellers</Link></li></ul></div>
@@ -115,7 +116,7 @@ export default function Header({ rates, categories }: { rates: Record<string, nu
           <div className="scrim" onClick={() => setMenu(false)} />
           <aside className="drawer start" role="dialog" aria-modal="true" aria-label="Menu">
             <div className="dh"><h3>Menu</h3><button className="ib" type="button" aria-label="Close" onClick={() => setMenu(false)}>✕</button></div>
-            <div className="db mnav">
+            <div className="db mnav" onClick={(e) => { if ((e.target as HTMLElement).closest("a")) setMenu(false); }}>
               {NAV.map((n) => <Link key={n.key} href={n.href}>{n.label}<span>›</span></Link>)}
               {categories.filter((c) => !NAV.some((n) => n.href.endsWith(`/${c.slug}`))).map((c) => <Link key={c.slug} href={`/jewellery/${c.slug}`}>{c.name}<span>›</span></Link>)}
               <Link href="/gold-rate">Today&apos;s gold rate<span>›</span></Link>

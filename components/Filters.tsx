@@ -3,6 +3,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { METALS, STONES, OCCASIONS, GENDERS } from "@/lib/constants";
 import type { Filters } from "@/lib/filter";
+import { startProgress } from "./NavProgress";
 import type { Category, Collection } from "@/lib/types";
 
 function useUrl() {
@@ -15,6 +16,7 @@ function useUrl() {
     fn(p);
     p.delete("page");
     const qs = p.toString();
+    startProgress();
     start(() => router.push(qs ? `${path}?${qs}` : path, { scroll: false }));
   };
   return { sp, update, pending };

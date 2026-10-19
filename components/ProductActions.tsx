@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useStore } from "./StoreProvider";
+import { startProgress } from "./NavProgress";
 
 export default function ProductActions({ id, name, sku, price, sizes, sizeLabel, whatsapp, url }: { id: string; name: string; sku: string; price: string; sizes: string[]; sizeLabel: string; whatsapp: string; url: string }) {
   const { addToCart, toast } = useStore();
@@ -20,7 +21,7 @@ export default function ProductActions({ id, name, sku, price, sizes, sizeLabel,
       <div className="acts">
         <a className="btn wa-btn" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(msg)}`} target="_blank" rel="noopener">Order on WhatsApp</a>
         <button className="btn p" type="button" onClick={() => { addToCart(id, size); toast(`Added to bag · ${name}`, "/cart", "View bag"); }}>Add to bag</button>
-        <button className="btn o" type="button" onClick={() => { addToCart(id, size); router.push("/checkout"); }}>Buy now</button>
+        <button className="btn o" type="button" onClick={() => { addToCart(id, size); startProgress(); router.push("/checkout"); }}>Buy now</button>
       </div>
     </>
   );

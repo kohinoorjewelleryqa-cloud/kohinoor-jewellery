@@ -1,3 +1,4 @@
+
 /* Layout: FNP-style retail stack. Maroon utility band, white header + category nav, then full-width merchandising rows; catalogue = filter rail + 4-up grid. */
 :root{
   --bg:#F7F5F3; --surface:#FFFFFF; --tile:#F2ECE8; --tile-2:#EADFD8;
@@ -530,3 +531,15 @@ nav.cats li a{color:inherit}
   .form{grid-template-columns:1fr}
 }
 .tbl input,.tbl select{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:6px 8px;font:inherit;color:inherit}
+
+/* page-change feedback */
+.navbar-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:100;background:linear-gradient(90deg,var(--gold),var(--gold-soft));box-shadow:0 0 8px rgba(201,160,75,.6);opacity:0;pointer-events:none;margin-top:env(safe-area-inset-top,0px)}
+.navbar-progress.loading{opacity:1;width:85%;transition:width 8s cubic-bezier(.1,.7,.2,1),opacity .1s}
+.navbar-progress.done{opacity:0;width:100%;transition:width .2s ease-out,opacity .3s ease .15s}
+a,button{-webkit-tap-highlight-color:rgba(138,21,56,.12)}
+.mnav a:active,.mega a:active,nav.cats a:active{background:var(--tile)}
+.card:active{transform:scale(.99)}
+.catgrid a:active,.occ a:active,.metals a:active,.recip a:active,.coll:active,.ban:active{opacity:.75}
+@media (prefers-reduced-motion:reduce){.navbar-progress{display:none}}
+.page-in{animation:pageIn .28s ease-out both}
+@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
