@@ -1,12 +1,15 @@
 // @ts-nocheck
 // Procedural jewellery illustrations, used when a product has no photo yet.
-import { METAL, STONES } from "./constants";
+import { METAL } from "./constants";
+
+// Colours used for drawn stones (independent of which stones the store sells).
+const GEM: Record<string, string> = { diamond: "#EEF6FF", cz: "#EEF6FF", pearl: "#F5EFE4", ruby: "#C3123B", emerald: "#0E8A5F", sapphire: "#2049B8", turquoise: "#3FB8AF", polki: "#F1E9D4", kundan: "#E7F1EF" };
 
 function grad(uid,m){const c=METAL[m].colors;return`<linearGradient id="m${uid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset=".45" stop-color="${c[1]}"/><stop offset=".7" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[2]}"/></linearGradient><radialGradient id="p${uid}" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset=".6" stop-color="#F1E8DA"/><stop offset="1" stop-color="#C9BBA4"/></radialGradient>`}
 function gem(x,y,r,st,uid){
   if(st==="none")return"";
   if(st==="pearl")return`<circle cx="${x}" cy="${y}" r="${r*.9}" fill="url(#p${uid})"/>`;
-  const col=STONES[st].color, dk=st==="diamond"||st==="polki"||st==="kundan"?"#9FB3C8":"rgba(0,0,0,.35)";
+  const col=GEM[st], dk=st==="diamond"||st==="cz"||st==="polki"||st==="kundan"?"#9FB3C8":"rgba(0,0,0,.35)";
   const pts=[[x-r,y-r*.25],[x-r*.55,y-r*.72],[x+r*.55,y-r*.72],[x+r,y-r*.25],[x,y+r]].map(p=>p.map(v=>v.toFixed(1)).join(",")).join(" ");
   let extra="";
   if(st==="kundan")extra=`<circle cx="${x}" cy="${y-r*.15}" r="${r*.28}" fill="#C3123B" opacity=".8"/>`;
@@ -24,7 +27,7 @@ function drawType(type,v,st,M,uid,xs){
       s+=`<path d="M86 84 L92 70 M114 84 L108 70" stroke="${M}" stroke-width="3"/>`;
       s+=g(100,66,v===2?14:20,st,uid);
       if(v===1||v===3){s+=g(74,84,7,st,uid)+g(126,84,7,st,uid)}
-      if(v===3){for(let a=200;a<=340;a+=20){const r=a*Math.PI/180;s+=`<circle cx="${(100+54*Math.cos(r)).toFixed(1)}" cy="${(122+44*Math.sin(r)*-1).toFixed(1)}" r="2.6" fill="${STONES[st].color||"#fff"}" stroke="#9FB3C8" stroke-width=".5"/>`}}
+      if(v===3){for(let a=200;a<=340;a+=20){const r=a*Math.PI/180;s+=`<circle cx="${(100+54*Math.cos(r)).toFixed(1)}" cy="${(122+44*Math.sin(r)*-1).toFixed(1)}" r="2.6" fill="${GEM[st]||"#fff"}" stroke="#9FB3C8" stroke-width=".5"/>`}}
     }else if(v%2){s+=`<rect x="80" y="70" width="40" height="22" rx="6" fill="${M}"/><text x="100" y="86" text-anchor="middle" font-family="Bodoni Moda,serif" font-size="14" fill="rgba(0,0,0,.35)">K</text>`}
     return s}
   case"necklaces":{
@@ -74,7 +77,7 @@ function drawType(type,v,st,M,uid,xs){
   case"nosepins":{
     let s=`<path d="M100 120 v40" stroke="${M}" stroke-width="3"/>`;
     if(v%2){s+=`<circle cx="100" cy="100" r="44" fill="none" stroke="${M}" stroke-width="5"/>`+[...Array(9)].map((_,i)=>{const a=(200+i*16)*Math.PI/180;return`<circle cx="${(100+44*Math.cos(a)).toFixed(1)}" cy="${(100-44*Math.sin(a)*-1).toFixed(1)}" r="3.5" fill="${st==="pearl"?"url(#p"+uid+")":M}"/>`}).join("")+g(100,56,9,st,uid)}
-    else{for(let a=0;a<360;a+=45){const r=a*Math.PI/180;s+=`<circle cx="${(100+20*Math.cos(r)).toFixed(1)}" cy="${(100+20*Math.sin(r)).toFixed(1)}" r="9" fill="${M}"/>`}s+=g(100,100,13,st==="none"?"diamond":st,uid)}
+    else{for(let a=0;a<360;a+=45){const r=a*Math.PI/180;s+=`<circle cx="${(100+20*Math.cos(r)).toFixed(1)}" cy="${(100+20*Math.sin(r)).toFixed(1)}" r="9" fill="${M}"/>`}s+=g(100,100,13,st==="none"?"cz":st,uid)}
     return s}
   case"sets":{
     return`<g transform="translate(25,0) scale(.75)">${drawType("necklaces",v%3,st,M,uid)}</g><g transform="translate(0,62)">${drawType("earrings",v===1?1:0,st,M,uid,[28,172])}</g>`}
@@ -87,9 +90,18 @@ function drawType(type,v,st,M,uid,xs){
   }return""}
 
 export function artSvg(type: string, metal: string, stone: string, v = 0): string {
-  if (!METAL[metal]) metal = "yg22";
-  if (!STONES[stone]) stone = "none";
+  if (!METAL[metal]) metal = "ag925";
+  if (!["rings","necklaces","earrings","bangles","bracelets","pendants","chains","anklets","nosepins","sets","coins","cufflinks"].includes(type)) type = "pendants";
+  if (!GEM[stone]) stone = "none";
   // Deterministic id: identical server/client output, and identical art shares one gradient safely.
   const uid = `${type}-${metal}-${stone}-${v % 4}`;
   return `<svg viewBox="0 0 200 200" aria-hidden="true"><defs>${grad(uid, metal)}</defs>${drawType(type, v % 4, stone, `url(#m${uid})`, uid)}</svg>`;
+}
+
+/** Picks the closest drawing for a product, using its style where a category covers several types. */
+export function artType(category: string, style?: string | null): string {
+  const s = (style || "").toLowerCase();
+  if (category === "necklaces") return s.includes("pendant") ? "pendants" : s.includes("chain") ? "chains" : "necklaces";
+  if (category === "bracelets") return s.includes("bangle") || s.includes("kada") ? "bangles" : "bracelets";
+  return category;
 }

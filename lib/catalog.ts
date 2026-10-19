@@ -18,7 +18,7 @@ const DEMO_SETTINGS: Settings = {
 };
 
 const PRODUCT_COLUMNS =
-  "id,sku,slug,name,category,style,metal,stone,carat,weight_g,making_pct,making_discount_pct,stone_value,stock,occasions,gender,collection,is_new,is_bestseller,is_active,images,art_variant,created_at";
+  "id,sku,slug,name,category,style,metal,stone,carat,weight_g,making_pct,making_discount_pct,stone_value,fixed_price,stock,occasions,gender,collection,is_new,is_bestseller,is_active,images,art_variant,created_at";
 
 async function loadFromSupabase(): Promise<Omit<Catalog, "products"> & { raw: Product[] }> {
   const db = publicClient();

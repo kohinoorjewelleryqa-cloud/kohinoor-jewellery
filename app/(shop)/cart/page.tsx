@@ -43,7 +43,7 @@ export default function CartPage() {
             <div className="sum t num"><span>Total</span><span>{qar(total)}</span></div>
             <Link className="btn p block" href="/checkout">Checkout</Link>
             <Link className="btn o block" href="/shop">Continue shopping</Link>
-            <p style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 0" }}>Prices follow today&apos;s gold rate and are confirmed when you place the order.</p>
+            <p style={{ fontSize: 12, color: "var(--muted)", margin: "4px 0 0" }}>Prices follow today&apos;s silver rate and are confirmed when you place the order.</p>
           </aside>
         </div>
       )}

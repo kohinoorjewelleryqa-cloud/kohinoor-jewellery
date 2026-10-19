@@ -5,8 +5,8 @@ const site = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site),
-  title: { default: "Kohinoor Jewellery | Gold, Diamond & Bridal Jewellery in Qatar", template: "%s | Kohinoor Jewellery Qatar" },
-  description: "Shop hallmarked gold, diamond and bridal jewellery online in Qatar. Prices at today's gold rate, same-day delivery in Doha.",
+  title: { default: "Kohinoor Jewellery | 925 Sterling Silver Jewellery in Qatar", template: "%s | Kohinoor Jewellery Qatar" },
+  description: "Shop 925 sterling silver rings, earrings, necklaces, bracelets and anklets online in Qatar. Same-day delivery in Doha.",
   openGraph: { siteName: "Kohinoor Jewellery", type: "website", locale: "en_QA" },
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#6E0F2C" };

@@ -28,7 +28,7 @@ export default function Dashboard() {
   }, []);
   return (
     <>
-      <h1>Dashboard</h1><p className="sub">Update the gold rate each morning, then check new orders.</p>
+      <h1>Dashboard</h1><p className="sub">Update the silver rate each morning, then check new orders.</p>
       <div className="tiles">
         <div className="tile"><small>Live products</small><b className="num">{s.products.toLocaleString()}</b></div>
         <div className="tile"><small>Made to order / no stock</small><b className="num">{s.outOfStock.toLocaleString()}</b></div>

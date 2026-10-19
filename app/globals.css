@@ -1,3 +1,4 @@
+
 /* Layout: FNP-style retail stack. Maroon utility band, white header + category nav, then full-width merchandising rows; catalogue = filter rail + 4-up grid. */
 :root{
   --bg:#F7F5F3; --surface:#FFFFFF; --tile:#F2ECE8; --tile-2:#EADFD8;
@@ -550,3 +551,4 @@ a,button{-webkit-tap-highlight-color:rgba(138,21,56,.12)}
   .rtable th,.rtable td{padding:10px 6px;font-size:13px}
   .rtable .hide-xs{display:none}
 }
+.metals.five{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}

@@ -1,4 +1,4 @@
--- Kohinoor Jewellery — Supabase database setup
+-- Kohinoor Jewellery (silver store) — Supabase database setup
 -- Run once: Supabase → SQL Editor → New query → paste this whole file → Run.
 
 -- ---------------------------------------------------------------- tables
@@ -10,7 +10,7 @@ create table if not exists settings (
   email text not null default 'info@example.com',
   address text not null default 'Showroom address, Doha, Qatar',
   hours text not null default 'Sat–Thu 10 am–10 pm · Fri 4 pm–10 pm',
-  rates jsonb not null default '{"yg24":468,"yg22":430,"yg21":410,"yg18":352,"wg18":352,"rg18":352,"pt":145,"ag":6.2}',
+  rates jsonb not null default '{"ag999":6.4,"ag925":5.95}',
   rates_updated_at timestamptz
 );
 
@@ -36,13 +36,14 @@ create table if not exists products (
   name text not null,
   category text not null references categories(slug) on update cascade,
   style text,
-  metal text not null check (metal in ('yg24','yg22','yg21','yg18','wg18','rg18','pt','ag')),
+  metal text not null check (metal in ('ag925','ag925ox','ag925gp','ag925rp','ag999')),
   stone text not null default 'none',
   carat numeric(8,2) not null default 0,
   weight_g numeric(10,3) not null check (weight_g > 0),
   making_pct numeric(6,2) not null default 0,
   making_discount_pct numeric(5,2) not null default 0,
   stone_value numeric(12,2) not null default 0,
+  fixed_price numeric(12,2),           -- optional tag price; overrides weight × rate
   stock int not null default 0,
   occasions text[] not null default '{}',
   gender text not null default 'Women',
@@ -151,27 +152,20 @@ exception when duplicate_object then null; when undefined_object then null; end 
 insert into settings (id) values (1) on conflict (id) do nothing;
 
 insert into categories (slug, name, sort_order, sizes, intro) values
- ('rings','Rings',1,'{6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22}','Solitaires, eternity bands, signet and cocktail rings in 18K, 21K and 22K gold and platinum. Free resizing within 30 days.'),
- ('necklaces','Necklaces',2,'{}','Chokers, collar necklaces and Rani haars, from light everyday pieces to full bridal statements.'),
- ('earrings','Earrings',3,'{}','Jhumkas, chandbalis, hoops, studs and huggies set with diamonds, pearls and coloured stones.'),
- ('bangles','Bangles',4,'{2.2,2.4,2.6,2.8,2.10}','Kadas, filigree and openable bangles sold singly or in pairs, in Gulf sizes 2.2 to 2.10.'),
- ('bracelets','Bracelets',5,'{}','Tennis, link, charm and cuff bracelets for women and men.'),
- ('pendants','Pendants',6,'{}','Hearts, initials, crescents and drops in yellow, white and rose gold.'),
- ('chains','Chains',7,'{"16 in","18 in","20 in","22 in","24 in"}','Rope, box, Cuban, Figaro and Singapore chains from 16 to 24 inches, priced by weight.'),
- ('anklets','Anklets',8,'{}','Traditional payals and charm anklets with fine bells.'),
- ('nosepins','Nose Pins',9,'{}','Delicate studs and naths in gold with diamond and pearl accents.'),
- ('sets','Bridal Sets',10,'{}','Necklace and earring sets in Royal Kundan, polki, emerald and ruby for the wedding season.'),
- ('coins','Coins & Bars',11,'{}','24K 999.9 fine gold coins and bars from 1 g to 100 g, for gifting and saving.'),
- ('cufflinks','Cufflinks',12,'{}','Engraved and stone-set cufflinks in 21K gold for formal occasions.')
+ ('rings','Rings',1,'{6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22}','Sterling silver bands, statement rings and stackables, plain or set with cubic zirconia and coloured stones. Free resizing within 30 days.'),
+ ('earrings','Earrings',2,'{}','Studs, hoops, huggies, drops and oxidised jhumkas in 925 silver.'),
+ ('necklaces','Necklaces & Pendants',3,'{"16 in","18 in","20 in","22 in"}','Pendants, chains, chokers and layered necklaces in sterling, oxidised and gold-plated silver.'),
+ ('bracelets','Bracelets & Bangles',4,'{}','Tennis and link bracelets, cuffs, kadas and bangles in 925 silver.'),
+ ('anklets','Anklets',5,'{}','Traditional silver payals and light everyday anklets.'),
+ ('sets','Jewellery Sets',6,'{}','Matching necklace and earring sets, ready to gift.')
 on conflict (slug) do nothing;
 
 insert into collections (slug, name, description, sort_order) values
- ('mughal-heritage','Mughal Heritage','Temple motifs, filigree and antique finish',1),
- ('doha-pearl','Doha Pearl','Gulf pearls set in 18K and 21K gold',2),
- ('royal-kundan','Royal Kundan','Hand-set kundan and polki for brides',3),
- ('everyday-lite','Everyday Lite','Light 18K pieces under 5 grams',4),
- ('bridal-grandeur','Bridal Grandeur','Statement sets for the wedding day',5),
- ('men-of-gold','Men of Gold','Chains, signets and cufflinks',6)
+ ('everyday-sterling','Everyday Sterling','Light 925 pieces for daily wear',1),
+ ('oxidised-heritage','Oxidised Heritage','Antique-finish jhumkas, chokers and payals',2),
+ ('golden-touch','Golden Touch','Gold-plated sterling silver',3),
+ ('doha-pearl','Doha Pearl','Pearls set in sterling silver',4),
+ ('men-in-silver','Men in Silver','Chains, bands and bracelets for men',5)
 on conflict (slug) do nothing;
 
 -- ---------------------------------------------------------------- make yourself an admin

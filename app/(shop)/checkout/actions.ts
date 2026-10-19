@@ -29,7 +29,7 @@ export async function placeOrder(input: CheckoutInput): Promise<CheckoutResult> 
     const p = map.get(l.id);
     if (!p) continue;
     const qty = Math.min(Math.max(1, Math.floor(Number(l.qty) || 1)), 20);
-    items.push({ id: p.id, sku: p.sku, name: p.name, metal: p.metal, weight_g: p.weight_g, size: l.size ? clean(l.size, 12) : null, qty, unit_price: p.price, rate: cat.settings.rates[p.metal] ?? 0 });
+    items.push({ id: p.id, sku: p.sku, name: p.name, metal: p.metal, weight_g: p.weight_g, size: l.size ? clean(l.size, 12) : null, qty, unit_price: p.price, rate: p.isFixed ? 0 : p.rate });
   }
   if (!items.length) return { ok: false, error: "The pieces in your bag are no longer available." };
   const total = items.reduce((a, i) => a + i.unit_price * i.qty, 0);

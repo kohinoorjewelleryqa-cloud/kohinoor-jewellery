@@ -7,13 +7,13 @@ export default function Footer({ settings, categories, collections }: { settings
       <div className="fgrid">
         <div className="fbrand">
           <img src="/logo.webp" alt="Kohinoor Jewellery" width={51} height={76} />
-          <p>Fine gold, diamond and bridal jewellery for Qatar. Hallmarked, certified and priced at the day&apos;s rate.</p>
+          <p>925 sterling silver jewellery for Qatar. Hallmarked, hand-finished and fairly priced.</p>
           <p className="num" style={{ opacity: 0.9 }}>{settings.address}<br />Phone / WhatsApp: {settings.phone}<br />{settings.email}<br />{settings.hours}</p>
         </div>
         <div><h4>Shop</h4><ul>{categories.slice(0, 7).map((c) => <li key={c.slug}><Link href={`/jewellery/${c.slug}`}>{c.name}</Link></li>)}</ul></div>
         <div><h4>Collections</h4><ul>{collections.map((c) => <li key={c.slug}><Link href={`/collections/${c.slug}`}>{c.name}</Link></li>)}</ul></div>
         <div><h4>Help</h4><ul>
-          <li><Link href="/gold-rate">Today&apos;s gold rate</Link></li><li><Link href="/delivery-returns">Delivery &amp; returns</Link></li>
+          <li><Link href="/silver-rate">Today&apos;s silver rate</Link></li><li><Link href="/delivery-returns">Delivery &amp; returns</Link></li>
           <li><Link href="/faq">FAQs &amp; size guide</Link></li><li><Link href="/about">About us</Link></li><li><Link href="/contact">Contact us</Link></li>
           <li><Link href="/privacy">Privacy policy</Link></li><li><Link href="/terms">Terms &amp; conditions</Link></li>
         </ul></div>

@@ -7,7 +7,7 @@ import { rowToProduct, productToCsvRow, CSV_COLUMNS, type ParsedRow } from "@/li
 import type { Product } from "@/lib/types";
 
 export default function ImportPage() {
-  const [cats, setCats] = useState<string[]>([]);
+  const [cats, setCats] = useState<{ slug: string; name: string }[]>([]);
   const [cols, setCols] = useState<string[]>([]);
   const [rows, setRows] = useState<ParsedRow[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
@@ -18,7 +18,7 @@ export default function ImportPage() {
 
   useEffect(() => {
     const db = supabaseBrowser();
-    db.from("categories").select("slug").then(({ data }) => setCats((data ?? []).map((x: { slug: string }) => x.slug)));
+    db.from("categories").select("slug,name").order("sort_order").then(({ data }) => setCats((data ?? []) as { slug: string; name: string }[]));
     db.from("collections").select("slug").then(({ data }) => setCols((data ?? []).map((x: { slug: string }) => x.slug)));
   }, []);
 
@@ -90,11 +90,11 @@ export default function ImportPage() {
           <details><summary>Column guide</summary>
             <div className="order-items" style={{ marginBottom: 12 }}>
               <span><b>sku, name</b>: required. SKU must be unique.</span>
-              <span><b>category</b>: {cats.join(", ")}</span>
-              <span><b>metal</b>: yg24, yg22, yg21, yg18, wg18 (white gold), rg18 (rose gold), pt (platinum), ag (silver)</span>
-              <span><b>stone</b>: none, diamond, pearl, ruby, emerald, sapphire, polki, kundan</span>
-              <span><b>weight_g, making_pct, making_discount_pct, stone_value, carat, stock</b>: numbers</span>
-              <span><b>occasions</b>: Wedding; Engagement; Anniversary; Birthday; Eid; Daily Wear; National Day; Gifting</span>
+              <span><b>category</b>: {cats.map((c) => `${c.slug} (${c.name})`).join(", ")}</span>
+              <span><b>metal</b> (finish): ag925 = sterling silver, ag925ox = oxidised, ag925gp = gold-plated, ag925rp = rose-gold-plated, ag999 = 999 fine silver. Words like “sterling” or “oxidised” also work.</span>
+              <span><b>stone</b>: none, cz (cubic zirconia), pearl, ruby, emerald, sapphire, turquoise</span>
+              <span><b>weight_g, making_pct, making_discount_pct, stone_value, stock</b>: numbers · <b>fixed_price</b>: optional tag price in QAR; if filled, it is used instead of the weight × silver-rate formula</span>
+              <span><b>occasions</b>: Everyday; Office; Party; Eid; Birthday; Anniversary; National Day; Gifting</span>
               <span><b>gender</b>: Women, Men, Kids or Unisex · <b>collection</b>: {cols.join(", ") || "none yet"}</span>
               <span><b>is_new, is_bestseller, is_active</b>: yes or no · <b>image_urls</b>: photo links separated by ;</span>
             </div>

@@ -34,7 +34,7 @@ type Props = {
 function groups(categories: Category[], collections: Collection[]) {
   return [
     { key: "cat", label: "Category", opts: categories.map((c) => [c.slug, c.name]) },
-    { key: "metal", label: "Metal & purity", opts: METALS.map((m) => [m.id, m.label]) },
+    { key: "metal", label: "Finish", opts: METALS.map((m) => [m.id, m.label]) },
     { key: "stone", label: "Stone", opts: Object.entries(STONES).map(([k, v]) => [k, v.label]) },
     { key: "occ", label: "Occasion", opts: OCCASIONS.map((o) => [o, o]) },
     { key: "for", label: "For", opts: GENDERS.map((g) => [g, g]) },
@@ -79,7 +79,7 @@ function Panel({ f, facets, locked, categories, collections, idp }: Props & { id
           <input id={`${idp}-max`} inputMode="numeric" placeholder="Max" value={max} onChange={(e) => setMax(e.target.value.replace(/\D/g, ""))} onBlur={() => price(min, max)} aria-label="Maximum price" />
         </form>
         <div className="chips" style={{ margin: "10px 0 0" }}>
-          {([[0, 1000], [1000, 3000], [3000, 8000], [8000, 20000], [20000, 0]] as const).map(([a, b]) => (
+          {([[0, 100], [100, 250], [250, 500], [500, 1000], [1000, 0]] as const).map(([a, b]) => (
             <button key={a} type="button" className="chip" onClick={() => price(a ? String(a) : "", b ? String(b) : "")}>{b ? `${a.toLocaleString()}–${b.toLocaleString()}` : `${a.toLocaleString()}+`}</button>
           ))}
         </div>

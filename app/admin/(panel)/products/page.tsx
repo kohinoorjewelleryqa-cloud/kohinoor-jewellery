@@ -5,7 +5,7 @@ import { supabaseBrowser } from "@/lib/supabase-browser";
 import { refreshShop } from "@/lib/admin";
 import { priceProduct, qar } from "@/lib/pricing";
 import { DEFAULT_RATES, METAL } from "@/lib/constants";
-import { artSvg } from "@/lib/art";
+import { artSvg, artType } from "@/lib/art";
 import type { Category, Product } from "@/lib/types";
 
 const PER = 50;
@@ -62,7 +62,7 @@ export default function ProductsAdmin() {
             const pr = priceProduct(p, rates);
             return (
               <tr key={p.id}>
-                <td><div className="th-img">{p.images?.[0] ? <img src={p.images[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ display: "contents" }} dangerouslySetInnerHTML={{ __html: artSvg(p.category, p.metal, p.stone, p.art_variant) }} />}</div></td>
+                <td><div className="th-img">{p.images?.[0] ? <img src={p.images[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ display: "contents" }} dangerouslySetInnerHTML={{ __html: artSvg(artType(p.category, p.style), p.metal, p.stone, p.art_variant) }} />}</div></td>
                 <td className="wrap-cell"><Link href={`/admin/products/${p.id}`} style={{ fontWeight: 600, textDecoration: "none" }}>{p.name}</Link><br /><small className="num" style={{ color: "var(--muted)" }}>{p.sku}</small></td>
                 <td>{cats.find((c) => c.slug === p.category)?.name ?? p.category}</td>
                 <td>{METAL[p.metal]?.short}</td>

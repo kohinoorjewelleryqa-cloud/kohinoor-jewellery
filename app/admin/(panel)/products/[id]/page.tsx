@@ -8,7 +8,7 @@ import { priceProduct, qar, slugify } from "@/lib/pricing";
 import { DEFAULT_RATES, METALS, STONES, OCCASIONS, GENDERS } from "@/lib/constants";
 import type { Category, Collection, Product } from "@/lib/types";
 
-const EMPTY: Product = { id: "", sku: "", slug: "", name: "", category: "rings", style: "", metal: "yg22", stone: "none", carat: 0, weight_g: 0, making_pct: 12, making_discount_pct: 0, stone_value: 0, stock: 1, occasions: [], gender: "Women", collection: null, is_new: true, is_bestseller: false, is_active: true, description: "", images: [], art_variant: 0 };
+const EMPTY: Product = { id: "", sku: "", slug: "", name: "", category: "rings", style: "", metal: "ag925", stone: "none", carat: 0, weight_g: 0, making_pct: 120, making_discount_pct: 0, stone_value: 0, fixed_price: null, stock: 1, occasions: [], gender: "Women", collection: null, is_new: true, is_bestseller: false, is_active: true, description: "", images: [], art_variant: 0 };
 
 export default function ProductEdit({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -86,27 +86,27 @@ export default function ProductEdit({ params }: { params: Promise<{ id: string }
       <div style={{ display: "grid", gap: 16 }}>
         <div className="panel"><h2>Basics</h2>
           <div className="form">
-            <div className="field full"><label htmlFor="name">Product name</label><input id="name" value={p.name} onChange={(e) => set("name", e.target.value)} placeholder="Aseel Diamond Solitaire Ring" /></div>
+            <div className="field full"><label htmlFor="name">Product name</label><input id="name" value={p.name} onChange={(e) => set("name", e.target.value)} placeholder="Aseel Sterling Silver Stackable Ring" /></div>
             <div className="field"><label htmlFor="sku">SKU <span className="hint">unique code, e.g. KJ-RG-00097</span></label><input id="sku" value={p.sku} onChange={(e) => set("sku", e.target.value)} /></div>
             <div className="field"><label htmlFor="cat">Category</label><select id="cat" value={p.category} onChange={(e) => set("category", e.target.value)}>{cats.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}</select></div>
-            <div className="field"><label htmlFor="style">Style <span className="hint">optional</span></label><input id="style" value={p.style ?? ""} onChange={(e) => set("style", e.target.value)} placeholder="Solitaire Ring" /></div>
+            <div className="field"><label htmlFor="style">Style <span className="hint">optional</span></label><input id="style" value={p.style ?? ""} onChange={(e) => set("style", e.target.value)} placeholder="Stackable Ring" /></div>
             <div className="field"><label htmlFor="col">Collection</label><select id="col" value={p.collection ?? ""} onChange={(e) => set("collection", e.target.value || null)}><option value="">None</option>{cols.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}</select></div>
             <div className="field full"><label htmlFor="desc">Description</label><textarea id="desc" value={p.description ?? ""} onChange={(e) => set("description", e.target.value)} /></div>
           </div>
         </div>
 
-        <div className="panel"><h2>Metal, weight &amp; price</h2>
+        <div className="panel"><h2>Finish, weight &amp; price</h2>
           <div className="form">
-            <div className="field"><label htmlFor="metal">Metal</label><select id="metal" value={p.metal} onChange={(e) => set("metal", e.target.value)}>{METALS.map((m) => <option key={m.id} value={m.id}>{m.label}</option>)}</select></div>
+            <div className="field"><label htmlFor="metal">Silver finish</label><select id="metal" value={p.metal} onChange={(e) => set("metal", e.target.value)}>{METALS.map((m) => <option key={m.id} value={m.id}>{m.label}</option>)}</select></div>
             <div className="field"><label htmlFor="w">Gross weight (grams)</label><input id="w" type="number" step="0.001" min="0" value={p.weight_g || ""} onChange={num("weight_g")} /></div>
             <div className="field"><label htmlFor="mk">Making charge (%)</label><input id="mk" type="number" step="0.1" min="0" value={p.making_pct} onChange={num("making_pct")} /></div>
             <div className="field"><label htmlFor="md">Discount on making (%) <span className="hint">0 for none</span></label><input id="md" type="number" step="1" min="0" max="100" value={p.making_discount_pct} onChange={num("making_discount_pct")} /></div>
             <div className="field"><label htmlFor="stone">Stone</label><select id="stone" value={p.stone} onChange={(e) => set("stone", e.target.value)}>{Object.entries(STONES).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}</select></div>
-            <div className="field"><label htmlFor="ct">Diamond carat <span className="hint">0 if none</span></label><input id="ct" type="number" step="0.01" min="0" value={p.carat} onChange={num("carat")} /></div>
+            <div className="field"><label htmlFor="fp">Fixed price (QAR) <span className="hint">optional · leave empty to price by weight</span></label><input id="fp" type="number" step="1" min="0" value={p.fixed_price ?? ""} onChange={(e) => set("fixed_price", e.target.value === "" ? null : Number(e.target.value))} /></div>
             <div className="field"><label htmlFor="sv">Stone value (QAR)</label><input id="sv" type="number" step="1" min="0" value={p.stone_value} onChange={num("stone_value")} /></div>
             <div className="field"><label htmlFor="stock">Stock <span className="hint">0 = made to order</span></label><input id="stock" type="number" step="1" min="0" value={p.stock} onChange={num("stock")} /></div>
           </div>
-          <div className="notice info num" style={{ marginTop: 14, marginBottom: 0 }}>Price today: <b>{qar(priced.price)}</b> = metal {qar(priced.metalValue)} + making {qar(priced.makingValue - priced.discountValue)}{p.stone_value ? ` + stone ${qar(p.stone_value)}` : ""} (rate {rates[p.metal]}/g)</div>
+          <div className="notice info num" style={{ marginTop: 14, marginBottom: 0 }}>{priced.isFixed ? <>Price on the shop: <b>{qar(priced.price)}</b> (fixed price; the silver rate does not change it)</> : <>Price today: <b>{qar(priced.price)}</b> = silver {qar(priced.metalValue)} + making {qar(priced.makingValue - priced.discountValue)}{p.stone_value ? ` + stone ${qar(p.stone_value)}` : ""} (rate {priced.rate}/g)</>}</div>
         </div>
 
         <div className="panel"><h2>Photos</h2>

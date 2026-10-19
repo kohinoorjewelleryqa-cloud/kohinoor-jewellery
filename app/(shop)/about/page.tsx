@@ -7,9 +7,9 @@ export default async function About() {
   return (
     <SimplePage title="About Kohinoor Jewellery" crumb="About us">
       <div className="prose">
-        <p>Named after the most famous diamond in history, Kohinoor Jewellery brings fine gold, diamond and bridal jewellery to families across Qatar.</p>
+        <p>Named after the most famous diamond in history, Kohinoor Jewellery brings hallmarked 925 sterling silver jewellery to families across Qatar, from everyday studs to oxidised heritage pieces.</p>
         <h2>What we stand for</h2>
-        <ul><li>Hallmarked purity on every gold piece</li><li>Transparent pricing: weight, rate and making charge shown separately</li><li>Certified diamonds above 0.30 ct</li><li>Lifetime exchange at the day&apos;s gold rate</li></ul>
+        <ul><li>925 hallmark on every sterling silver piece</li><li>Transparent pricing: weight, rate and making charge shown separately</li><li>Nickel-free, skin-friendly silver</li><li>Free cleaning and polishing for life</li></ul>
         <h2>Visit the showroom</h2><p>{settings.address}<br />{settings.hours}</p>
       </div>
     </SimplePage>

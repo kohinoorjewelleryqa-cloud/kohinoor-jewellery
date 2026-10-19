@@ -61,7 +61,7 @@ export default function OrdersAdmin() {
               {open === o.id && (
                 <tr><td colSpan={7} style={{ whiteSpace: "normal", background: "var(--bg)" }}>
                   <div style={{ display: "grid", gap: 10, gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))" }}>
-                    <div className="order-items">{o.items.map((i, k) => <span key={k} className="num">{i.qty} × {i.name} ({i.sku}){i.size ? ` · size ${i.size}` : ""} · {i.weight_g} g @ {i.rate}/g — <b>{qar(i.unit_price * i.qty)}</b></span>)}</div>
+                    <div className="order-items">{o.items.map((i, k) => <span key={k} className="num">{i.qty} × {i.name} ({i.sku}){i.size ? ` · size ${i.size}` : ""} · {i.weight_g} g{i.rate ? ` @ ${i.rate}/g` : " · fixed price"} — <b>{qar(i.unit_price * i.qty)}</b></span>)}</div>
                     <div className="order-items">
                       <span><b>Address:</b> {o.area}, Zone {o.zone}, Street {o.street}, Building {o.building}</span>
                       <span><b>Delivery:</b> {o.delivery_slot}</span>

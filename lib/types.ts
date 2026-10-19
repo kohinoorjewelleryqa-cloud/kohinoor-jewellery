@@ -12,6 +12,8 @@ export type Product = {
   making_pct: number;
   making_discount_pct: number;
   stone_value: number;
+  /** Optional tag price. When set (> 0) it is used instead of the weight × rate formula. */
+  fixed_price: number | null;
   stock: number;
   occasions: string[];
   gender: string;
@@ -26,6 +28,8 @@ export type Product = {
 };
 
 export type PricedProduct = Product & {
+  rate: number;
+  isFixed: boolean;
   metalValue: number;
   makingValue: number;
   discountValue: number;

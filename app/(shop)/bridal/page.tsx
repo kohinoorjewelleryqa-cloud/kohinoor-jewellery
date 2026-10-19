@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
-import Listing from "@/components/Listing";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata: Metadata = { title: 'Bridal Jewellery', description: 'Everything for the wedding: bridal sets, statement necklaces, bangles and engagement rings.' };
-
-export default async function Page({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  return <Listing base="/bridal" sp={await searchParams} preset={{ occ: ["Wedding"] }} title='Bridal Jewellery' intro='Everything for the wedding: bridal sets, statement necklaces, bangles and engagement rings.' />;
+// Kept only so old links keep working: this page moved when the store became silver-only.
+export default function Moved() {
+  permanentRedirect("/jewellery/sets");
 }

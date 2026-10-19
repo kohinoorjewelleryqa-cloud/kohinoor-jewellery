@@ -11,17 +11,15 @@ import type { Category } from "@/lib/types";
 
 export const NAV = [
   { key: "all", label: "All Jewellery", href: "/shop", mega: true },
-  { key: "gold", label: "Gold", href: "/gold" },
-  { key: "diamond", label: "Diamond", href: "/diamond" },
   { key: "rings", label: "Rings", href: "/jewellery/rings" },
-  { key: "necklaces", label: "Necklaces", href: "/jewellery/necklaces" },
   { key: "earrings", label: "Earrings", href: "/jewellery/earrings" },
-  { key: "bangles", label: "Bangles", href: "/jewellery/bangles" },
-  { key: "bridal", label: "Bridal", href: "/bridal", prem: true },
+  { key: "necklaces", label: "Necklaces & Pendants", href: "/jewellery/necklaces" },
+  { key: "bracelets", label: "Bracelets & Bangles", href: "/jewellery/bracelets" },
+  { key: "anklets", label: "Anklets", href: "/jewellery/anklets" },
+  { key: "sets", label: "Sets", href: "/jewellery/sets" },
   { key: "men", label: "Men", href: "/men" },
   { key: "kids", label: "Kids", href: "/kids" },
-  { key: "coins", label: "Coins & Bars", href: "/jewellery/coins" },
-  { key: "gifts", label: "Gifts", href: "/gifts" },
+  { key: "gifts", label: "Gifts", href: "/gifts", prem: true },
 ];
 
 function SearchBox() {
@@ -32,7 +30,7 @@ function SearchBox() {
   return (
     <form className="search" role="search" onSubmit={(e) => { e.preventDefault(); startProgress(); router.push(q.trim() ? `/shop?q=${encodeURIComponent(q.trim())}` : "/shop"); }}>
       <label htmlFor="q" className="sr">Search jewellery</label>
-      <input id="q" name="q" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search rings, 21K bangles, diamond sets, SKU…" autoComplete="off" />
+      <input id="q" name="q" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search silver rings, oxidised jhumkas, anklets, SKU…" autoComplete="off" />
       <button type="submit" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg></button>
     </form>
   );
@@ -61,12 +59,10 @@ export default function Header({ rates, categories }: { rates: Record<string, nu
     <>
       <div className="util"><div className="wrap">
         <div className="rates num">
-          <span className="lbl"><span className="hide-sm">Today&apos;s </span>Gold (QAR/g):</span>
-          <span className="hide-sm">24K <b>{rates.yg24?.toFixed(2)}</b></span>
-          <span>22K <b>{rates.yg22?.toFixed(2)}</b></span>
-          <span className="hide-sm">21K <b>{rates.yg21?.toFixed(2)}</b></span>
-          <span className="hide-sm">18K <b>{rates.yg18?.toFixed(2)}</b></span>
-          <Link className="hide-sm lbl" href="/gold-rate" style={{ textDecoration: "underline" }}>Calculator</Link>
+          <span className="lbl"><span className="hide-sm">Today&apos;s </span>Silver (QAR/g):</span>
+          <span>925 <b>{rates.ag925?.toFixed(2)}</b></span>
+          <span className="hide-sm">999 <b>{rates.ag999?.toFixed(2)}</b></span>
+          <Link className="hide-sm lbl" href="/silver-rate" style={{ textDecoration: "underline" }}>Calculator</Link>
         </div>
         <div className="u-right">
           <button type="button" onClick={toggleTheme} aria-label="Toggle dark mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: -2 }}><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" /></svg></button>
@@ -102,9 +98,9 @@ export default function Header({ rates, categories }: { rates: Record<string, nu
               <div className="wrap">
                 <div><h4>By type</h4><ul>{categories.slice(0, half).map((c) => <li key={c.slug}><Link href={`/jewellery/${c.slug}`}>{c.name}</Link></li>)}</ul></div>
                 <div><h4>More</h4><ul>{categories.slice(half).map((c) => <li key={c.slug}><Link href={`/jewellery/${c.slug}`}>{c.name}</Link></li>)}<li><Link href="/new-arrivals">New arrivals</Link></li><li><Link href="/best-sellers">Best sellers</Link></li></ul></div>
-                <div><h4>By metal</h4><ul>{METALS.map((m) => <li key={m.id}><Link href={`/shop?metal=${m.id}`}>{m.label}</Link></li>)}</ul></div>
+                <div><h4>By finish</h4><ul>{METALS.map((m) => <li key={m.id}><Link href={`/shop?metal=${m.id}`}>{m.label}</Link></li>)}</ul></div>
                 <div><h4>By occasion</h4><ul>{OCCASIONS.map((o) => <li key={o}><Link href={`/shop?occ=${encodeURIComponent(o)}`}>{o}</Link></li>)}</ul></div>
-                <div className="promo"><small style={{ letterSpacing: ".2em", textTransform: "uppercase", fontSize: 11, fontWeight: 600 }}>Bridal 2026</small><b>Royal Kundan, hand-set for your nikah</b><span style={{ opacity: 0.85, fontSize: 13.5 }}>Bridal sets in 21K and 22K gold.</span><Link className="btn g" href="/jewellery/sets" style={{ alignSelf: "flex-start", marginTop: 6 }}>Explore bridal sets</Link></div>
+                <div className="promo"><small style={{ letterSpacing: ".2em", textTransform: "uppercase", fontSize: 11, fontWeight: 600 }}>New season</small><b>Oxidised Heritage, made for Eid</b><span style={{ opacity: 0.85, fontSize: 13.5 }}>Jhumkas, chokers and payals in antique-finish 925 silver.</span><Link className="btn g" href="/collections/oxidised-heritage" style={{ alignSelf: "flex-start", marginTop: 6 }}>Explore the collection</Link></div>
               </div>
             </div>
           )}
@@ -119,7 +115,7 @@ export default function Header({ rates, categories }: { rates: Record<string, nu
             <div className="db mnav" onClick={(e) => { if ((e.target as HTMLElement).closest("a")) setMenu(false); }}>
               {NAV.map((n) => <Link key={n.key} href={n.href}>{n.label}<span>›</span></Link>)}
               {categories.filter((c) => !NAV.some((n) => n.href.endsWith(`/${c.slug}`))).map((c) => <Link key={c.slug} href={`/jewellery/${c.slug}`}>{c.name}<span>›</span></Link>)}
-              <Link href="/gold-rate">Today&apos;s gold rate<span>›</span></Link>
+              <Link href="/silver-rate">Today&apos;s silver rate<span>›</span></Link>
               <Link href="/wishlist">Wishlist<span>›</span></Link>
               <Link href="/contact">Contact us<span>›</span></Link>
             </div>

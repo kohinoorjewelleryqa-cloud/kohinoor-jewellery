@@ -1,4 +1,4 @@
-sku,name,category,style,metal,stone,carat,weight_g,making_pct,making_discount_pct,stone_value,stock,occasions,gender,collection,is_new,is_bestseller,is_active,description,image_urls
-KJ-RG-00001,Lotus Silver Halo Ring,rings,Halo Ring,ag,diamond,0.74,11.84,35,0,4558,6,Engagement;Anniversary,Women,,no,no,yes,Lotus Silver Halo Ring in Silver with diamond. Hallmarked and finished by hand.,
-KJ-RG-00002,Arabesque Halo Ring,rings,Halo Ring,wg18,none,0,7.636,16.7,0,0,0,Wedding;Engagement,Men,men-of-gold,yes,no,yes,Arabesque Halo Ring in White Gold. Hallmarked and finished by hand.,
-KJ-RG-00003,Layla Signet Ring,rings,Signet Ring,rg18,ruby,0,5.997,10.3,0,2671,3,Birthday,Women,,no,no,yes,Layla Signet Ring in Rose Gold with ruby. Hallmarked and finished by hand.,
+sku,name,category,style,metal,stone,carat,weight_g,making_pct,making_discount_pct,stone_value,fixed_price,stock,occasions,gender,collection,is_new,is_bestseller,is_active,description,image_urls
+KJS-RG-00001,Mashrabiya Stackable Ring,rings,Stackable Ring,ag925,ruby,0,4.72,168.6,0,136,,4,Party;Gifting;Everyday,Women,everyday-sterling,no,no,yes,Mashrabiya Stackable Ring in sterling silver with ruby. 925 hallmarked and finished by hand.,
+KJS-RG-00002,Infinity Solitaire Ring,rings,Solitaire Ring,ag925,none,0,8.34,183.7,0,0,,0,Party;Office,Women,,no,no,yes,Infinity Solitaire Ring in sterling silver. 925 hallmarked and finished by hand.,
+KJS-RG-00003,Marjan Gold-plated Statement Ring,rings,Statement Ring,ag925gp,ruby,0,2.01,149.9,0,131,,15,Party;Birthday;Everyday,Women,golden-touch,no,no,yes,Marjan Gold-plated Statement Ring in gold-plated silver with ruby. 925 hallmarked and finished by hand.,
