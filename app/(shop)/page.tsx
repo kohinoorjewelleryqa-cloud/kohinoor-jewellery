@@ -49,30 +49,18 @@ export default async function Home() {
           <div className="slide photo"><img {...photo(PHOTOS.oxidised, 1800)} alt="Oxidised silver earrings" loading="lazy" /><div className="copy"><span className="eyebrow">Oxidised Heritage</span><h2>Antique silver, <i>made for Eid</i></h2><p>Oxidised jhumkas, chokers and payals with turquoise and ruby accents.</p><Link className="btn g" href="/collections/oxidised-heritage">Shop the collection</Link></div></div>
           <div className="slide photo"><img {...photo(PHOTOS.sets[0], 1800)} alt="Silver necklace and earring set" loading="lazy" /><div className="copy"><span className="eyebrow">Ready to gift</span><h2>Sets made for <i>celebrations</i></h2><p>Matching necklace and earring sets, gift-boxed and delivered the same day in Doha.</p><Link className="btn g" href="/jewellery/sets">Shop jewellery sets</Link></div></div>
         </HeroSlider>
-        <div className="trust">
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 3l7 3v6c0 4-3 7.5-7 9-4-1.5-7-5-7-9V6z" /><path d="m9 12 2 2 4-4" /></svg><p style={{ margin: 0 }}><b>925 hallmarked</b><span>Stamped on every piece</span></p></div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M6 3h12l3 6-9 12L3 9z" /><path d="M3 9h18M12 21 8 9l4-6 4 6z" /></svg><p style={{ margin: 0 }}><b>Nickel-free silver</b><span>Gentle on sensitive skin</span></p></div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7" /><circle cx="7" cy="18" r="1.8" /><circle cx="17" cy="18" r="1.8" /></svg><p style={{ margin: 0 }}><b>Same-day in Doha</b><span>Insured, signed delivery</span></p></div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3" /><path d="M18 3v4h-4M6 21v-4h4" /></svg><p style={{ margin: 0 }}><b>Free polishing</b><span>Bring it back any time</span></p></div>
-          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z" /></svg><p style={{ margin: 0 }}><b>Order on WhatsApp</b><span>Or cash on delivery</span></p></div>
-        </div>
       </div></section>
 
       <section className="row"><div className="wrap"><div className="sh"><h2><small>{products.length.toLocaleString("en-US")} designs</small>Shop by category</h2><Link href="/shop">View all →</Link></div>
-        <div className="catgrid photo">{categories.map((c) => (
+        <div className="occ cats">{categories.map((c) => (
           <Link key={c.slug} href={`/jewellery/${c.slug}`}>
-            <span className="im">{CAT_PHOTO[c.slug] ? <img {...photo(CAT_PHOTO[c.slug], 800)} alt={c.name} loading="lazy" /> : <JewelArt type={c.slug} metal="ag925" stone="cz" v={1} />}</span>
-            <b>{c.name}</b><span className="num">{count((p) => p.category === c.slug)} designs</span>
+            <span className="c">{CAT_PHOTO[c.slug] ? <img {...photo(CAT_PHOTO[c.slug], 400)} alt="" loading="lazy" /> : <JewelArt type={c.slug} metal="ag925" stone="cz" v={1} />}</span>
+            {c.name}<small className="num">{count((p) => p.category === c.slug)} designs</small>
           </Link>
         ))}</div>
       </div></section>
 
       <Rail eyebrow="Most loved in Qatar" title="Best sellers" href="/best-sellers" items={best} />
-
-      <section className="row"><div className="wrap"><div className="duo">
-        <Link className="ban photo" href="/collections/golden-touch"><img {...photo("1599643478518-a784e5dc4c8f", 1200)} alt="Gold-plated silver necklaces" loading="lazy" /><span className="t"><small>Golden Touch</small><b>Gold-plated sterling silver</b><span>The look of gold, at silver prices.</span><em>Shop now →</em></span></Link>
-        <Link className="ban photo" href="/collections/doha-pearl"><img {...photo(PHOTOS.pearl[0], 1200)} alt="Pearl necklace in a gift box" loading="lazy" /><span className="t"><small>Doha Pearl</small><b>Pearls set in silver</b><span>A nod to Qatar&apos;s pearling heritage.</span><em>Shop now →</em></span></Link>
-      </div></div></section>
 
       <Rail eyebrow="Antique finish" title="Oxidised favourites" href="/collections/oxidised-heritage" items={oxidised} />
 
@@ -94,7 +82,7 @@ export default async function Home() {
       <Rail eyebrow="Easy gifting" title="Under QAR 100" href="/shop?max=100" items={under100} />
 
       <section className="row"><div className="wrap"><div className="sh"><h2><small>Curated</small>Collections</h2></div>
-        <div className="cols photo">{collections.map((c) => (
+        <div className="cols photo scroll">{collections.map((c) => (
           <Link key={c.slug} className="coll" href={`/collections/${c.slug}`}>
             <span className="im">{COL_PHOTO[c.slug] ? <img {...photo(COL_PHOTO[c.slug], 900)} alt={c.name} loading="lazy" /> : <JewelArt type="pendants" metal="ag925" stone="cz" v={0} />}</span>
             <span className="t"><span><b>{c.name}</b><br /><span>{c.description}</span></span><span className="num" style={{ color: "var(--maroon)", fontWeight: 600 }}>{count((p) => p.collection === c.slug)} →</span></span>

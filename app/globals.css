@@ -609,3 +609,24 @@ h1,h2,h3,.sh h2,.pagehead h1,.shophead h1,.pdp h1{letter-spacing:-.005em}
 .trust span{font-size:12.5px}
 .card .nm{font-size:14.5px;font-weight:500}
 .brand .wm b{font-weight:700;letter-spacing:.12em}
+
+/* photos always fill their frame, whatever the photo's shape */
+.catgrid .im,.occ .c,.coll .im,.looks a,.main-im,.card .im{position:relative;overflow:hidden}
+.catgrid .im img,.occ .c img,.coll .im img,.looks img,.main-im .pimg,.card .im .pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;aspect-ratio:auto}
+.pdp .thumbs button{position:relative;overflow:hidden}
+.pdp .thumbs .pimg{position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);object-fit:cover}
+.coll .t b{color:var(--ink)}
+.coll .t span span{color:var(--muted)}
+.main-im .wl{z-index:1}
+
+/* categories as circles (same look as "Shop by occasion") */
+.occ.cats{grid-template-columns:repeat(6,1fr)}
+.occ.cats .c{max-width:140px}
+.occ.cats small{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:-4px}
+@media (max-width:900px){.occ.cats{grid-template-columns:repeat(3,1fr);row-gap:18px}}
+
+/* collections scroll sideways */
+.cols.scroll{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:calc((100% - 2*14px)/3.3);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.cols.scroll>*{scroll-snap-align:start}
+@media (max-width:900px){.cols.scroll{grid-auto-columns:46%}}
+@media (max-width:520px){.cols.scroll{grid-auto-columns:78%}}
