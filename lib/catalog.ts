@@ -3,6 +3,7 @@ import { unstable_cache } from "next/cache";
 import { publicClient, supabaseConfigured } from "./supabase-server";
 import { priceProduct } from "./pricing";
 import { demoProducts } from "./demo";
+import { samplePhotos } from "./stock";
 import { DEFAULT_CATEGORIES, DEFAULT_COLLECTIONS, DEFAULT_RATES } from "./constants";
 import type { Catalog, Category, Collection, Product, Settings, PricedProduct } from "./types";
 
@@ -67,7 +68,7 @@ export async function getCatalog(): Promise<Catalog> {
   if (!supabaseConfigured) {
     const settings = DEMO_SETTINGS;
     return {
-      products: demoProducts().map((p) => priceProduct(p, settings.rates)),
+      products: demoProducts().map((p) => priceProduct({ ...p, images: samplePhotos(p) }, settings.rates)),
       categories: DEFAULT_CATEGORIES,
       collections: DEFAULT_COLLECTIONS,
       settings,
@@ -75,7 +76,7 @@ export async function getCatalog(): Promise<Catalog> {
     };
   }
   const { raw, ...rest } = await cachedLoad();
-  return { ...rest, products: raw.map((p) => priceProduct(p, rest.settings.rates)) };
+  return { ...rest, products: raw.map((p) => priceProduct({ ...p, images: samplePhotos(p) }, rest.settings.rates)) };
 }
 
 export async function getProductBySlug(slug: string): Promise<PricedProduct | undefined> {
