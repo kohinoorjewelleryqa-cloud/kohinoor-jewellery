@@ -15,8 +15,8 @@ export default async function GoldRate() {
     <SimplePage title="Today's gold rate in Qatar" crumb="Gold rate">
       <div className="two">
         <div className="panel"><h2>Rates in QAR</h2>
-          <div style={{ overflowX: "auto" }}><table className="rtable"><thead><tr><th>Metal</th><th>1 g</th><th>8 g</th><th>10 g</th><th>Tola (11.66 g)</th></tr></thead><tbody>
-            {rows.map(([id, l]) => { const r = settings.rates[id] ?? 0, c = METAL[id].colors; return <tr key={id}><td><span className="sw" style={{ background: `linear-gradient(135deg,${c[0]},${c[1]} 55%,${c[2]})` }} />{l}</td><td>{r.toFixed(2)}</td><td>{(r * 8).toFixed(2)}</td><td>{(r * 10).toFixed(2)}</td><td>{(r * 11.664).toFixed(2)}</td></tr>; })}
+          <div style={{ overflowX: "auto" }}><table className="rtable"><thead><tr><th>Metal</th><th>1 g</th><th className="hide-xs">8 g</th><th>10 g</th><th>Tola</th></tr></thead><tbody>
+            {rows.map(([id, l]) => { const r = settings.rates[id] ?? 0, c = METAL[id].colors; return <tr key={id}><td><span className="sw" style={{ background: `linear-gradient(135deg,${c[0]},${c[1]} 55%,${c[2]})` }} />{l}</td><td>{r.toFixed(2)}</td><td className="hide-xs">{(r * 8).toFixed(2)}</td><td>{(r * 10).toFixed(2)}</td><td>{(r * 11.664).toFixed(2)}</td></tr>; })}
           </tbody></table></div>
           <p style={{ fontSize: 12.5, color: "var(--muted)", margin: "10px 0 0" }}>{updated ? `Last updated ${updated} (Doha time).` : "Rates are updated every morning."} Jewellery prices on this site use these rates.</p>
         </div>
