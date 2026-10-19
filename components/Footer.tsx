@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Category, Collection, Settings } from "@/lib/types";
+import { COMPANY } from "@/lib/company";
 
 export default function Footer({ settings, categories, collections }: { settings: Settings; categories: Category[]; collections: Collection[] }) {
   return (
@@ -18,7 +19,7 @@ export default function Footer({ settings, categories, collections }: { settings
           <li><Link href="/privacy">Privacy policy</Link></li><li><Link href="/terms">Terms &amp; conditions</Link></li>
         </ul></div>
       </div>
-      <div className="fbot"><span>© {new Date().getFullYear()} {settings.store_name}, Qatar. All rights reserved.</span>
+      <div className="fbot"><span>© {new Date().getFullYear()} {COMPANY.legalName}, Qatar · C.R. No. {COMPANY.crNumber}. All rights reserved.</span>
         <div className="pay"><span>VISA</span><span>MASTERCARD</span><span>APPLE PAY</span><span>COD</span></div></div>
     </div></footer>
   );
