@@ -2,7 +2,12 @@
 // Used for homepage banners and for SAMPLE products only (SKUs starting "KJS-").
 // Real products always show their own uploaded photos. To swap any image, change its id here.
 
-export const img = (id: string, w = 900) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`;
+export const img = (id: string, w = 900, dpr = 1) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=85${dpr > 1 ? `&dpr=${dpr}` : ""}`;
+
+/** Sharp on high-resolution (Retina) screens: the browser picks the 2× file only where needed. */
+export const srcSet = (src: string) => (src.includes("images.unsplash.com") ? `${src}&dpr=2 2x` : undefined);
+/** src + srcSet props for a stock photo. */
+export const photo = (id: string, w: number) => ({ src: img(id, w), srcSet: `${img(id, w, 2)} 2x` });
 
 export const PHOTOS = {
   rings: ["1620968867360-5cda83d2bffd", "1590703160323-ac5d3fc14089", "1590703160416-5b17d229e381", "1599708978061-501091150ec9", "1705854937134-dd130d90df5d", "1605100804763-247f67b3557e"],
@@ -26,5 +31,5 @@ export function samplePhotos(p: { sku: string; category: string; stone: string; 
   if (!pool?.length) return [];
   const h = hash(p.sku);
   const n = Math.min(pool.length, 1 + (h % 3));
-  return Array.from({ length: n }, (_, i) => img(pool[(h + i) % pool.length], 900));
+  return Array.from({ length: n }, (_, i) => img(pool[(h + i) % pool.length], 1000));
 }
