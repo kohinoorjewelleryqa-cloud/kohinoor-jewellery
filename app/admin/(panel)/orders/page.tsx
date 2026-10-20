@@ -3,10 +3,10 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase-browser";
 import { fmtDate } from "@/lib/admin";
 import { qar } from "@/lib/pricing";
-import { ORDER_STATUSES, STATUS_LABEL } from "@/lib/constants";
+import { ORDER_STATUSES, PAYMENT_STATUS_LABEL, STATUS_LABEL } from "@/lib/constants";
 import type { OrderItem } from "@/lib/types";
 
-type Order = { id: string; order_no: string; customer_name: string; phone: string; email: string | null; area: string; zone: string; street: string; building: string; delivery_slot: string; payment_method: string; notes: string | null; items: OrderItem[]; total: number; status: string; created_at: string };
+type Order = { id: string; order_no: string; customer_name: string; phone: string; email: string | null; area: string; zone: string; street: string; building: string; delivery_slot: string; payment_method: string; notes: string | null; items: OrderItem[]; total: number; status: string; created_at: string; payment_status?: string; payment_ref?: string | null; paid_amount?: number | null };
 
 const waNumber = (phone: string) => { const d = phone.replace(/\D/g, ""); return d.length === 8 ? `974${d}` : d; };
 
@@ -31,7 +31,7 @@ export default function OrdersAdmin() {
   // Live updates: new orders appear without refreshing.
   useEffect(() => {
     const db = supabaseBrowser();
-    const ch = db.channel("orders-live").on("postgres_changes", { event: "INSERT", schema: "public", table: "orders" }, () => load()).subscribe();
+    const ch = db.channel("orders-live").on("postgres_changes", { event: "*", schema: "public", table: "orders" }, () => load()).subscribe();
     return () => { db.removeChannel(ch); };
   }, [load]);
 
@@ -54,7 +54,7 @@ export default function OrdersAdmin() {
             <Fragment key={o.id}>
               <tr onClick={() => setOpen(open === o.id ? null : o.id)} style={{ cursor: "pointer" }}>
                 <td className="num"><b>{o.order_no}</b></td><td>{o.customer_name}<br /><small className="num" style={{ color: "var(--muted)" }}>{o.phone}</small></td><td>{o.area}</td>
-                <td className="num">{qar(o.total)}</td><td>{o.payment_method}</td>
+                <td className="num">{qar(o.total)}</td><td>{o.payment_method}{o.payment_status && o.payment_status !== "unpaid" && <><br /><span className={`pay-badge ${o.payment_status}`}>{PAYMENT_STATUS_LABEL[o.payment_status] ?? o.payment_status}</span></>}</td>
                 <td onClick={(e) => e.stopPropagation()}><select value={o.status} onChange={(e) => setOrderStatus(o, e.target.value)} aria-label="Order status" style={{ border: "1px solid var(--line)", borderRadius: 6, padding: "5px 8px", background: o.status === "new" ? "var(--maroon)" : "var(--surface)", color: o.status === "new" ? "var(--maroon-ink)" : "inherit" }}>{ORDER_STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}</select></td>
                 <td>{fmtDate(o.created_at)}</td>
               </tr>
@@ -66,6 +66,9 @@ export default function OrdersAdmin() {
                       <span><b>Address:</b> {o.area}, Zone {o.zone}, Street {o.street}, Building {o.building}</span>
                       <span><b>Delivery:</b> {o.delivery_slot}</span>
                       {o.email && <span><b>Email:</b> {o.email}</span>}
+                      {o.payment_ref && <span className="num"><b>SkipCash payment:</b> {o.payment_ref}{o.paid_amount ? ` · received ${qar(Number(o.paid_amount))}` : ""}</span>}
+                      {o.payment_status === "review" && <span style={{ color: "var(--warn)" }}><b>Check:</b> the amount paid doesn&apos;t match the order total. Compare it in the SkipCash portal before delivering.</span>}
+                      {o.payment_status === "pending" && <span style={{ color: "var(--muted)" }}>The customer was sent to pay online but hasn&apos;t finished yet. Don&apos;t deliver until it shows Paid online.</span>}
                       {o.notes && <span><b>Notes:</b> {o.notes}</span>}
                       <span style={{ marginTop: 6 }}><a className="btn wa-btn" style={{ padding: "7px 14px", fontSize: 13 }} href={`https://wa.me/${waNumber(o.phone)}?text=${encodeURIComponent(`Hello ${o.customer_name}, thank you for your Kohinoor Jewellery order ${o.order_no}.`)}`} target="_blank" rel="noopener">WhatsApp customer</a></span>
                     </div>

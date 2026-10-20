@@ -53,5 +53,9 @@ export const DEFAULT_COLLECTIONS = [
 
 export const QATAR_AREAS = ["Doha", "Lusail", "Al Wakrah", "Al Rayyan", "Al Khor", "Umm Salal", "Al Daayen", "Mesaieed", "Dukhan", "Al Shamal"];
 
+/** Checkout option for SkipCash online payment (shown only when SkipCash keys are set). */
+export const PAY_ONLINE = "Pay online now (card / Apple Pay)";
+export const PAYMENT_STATUS_LABEL: Record<string, string> = { unpaid: "Pay on delivery", pending: "Awaiting payment", paid: "Paid online", failed: "Payment failed", refunded: "Refunded", review: "Paid – check amount" };
+
 export const ORDER_STATUSES = ["new", "confirmed", "packed", "out_for_delivery", "delivered", "cancelled"] as const;
 export const STATUS_LABEL: Record<string, string> = { new: "New", confirmed: "Confirmed", packed: "Packed", out_for_delivery: "Out for delivery", delivered: "Delivered", cancelled: "Cancelled" };

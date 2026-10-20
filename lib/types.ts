@@ -49,6 +49,7 @@ export type Settings = {
   hours: string;
   rates: Record<string, number>;
   rates_updated_at: string | null;
+  online_payments?: boolean; // admin switch; online payment also needs SkipCash keys in Vercel
 };
 
 export type Catalog = {

@@ -11,7 +11,8 @@ create table if not exists settings (
   address text not null default 'Showroom address, Doha, Qatar',
   hours text not null default 'Sat–Thu 10 am–10 pm · Fri 4 pm–10 pm',
   rates jsonb not null default '{"ag999":6.4,"ag925":5.95}',
-  rates_updated_at timestamptz
+  rates_updated_at timestamptz,
+  online_payments boolean not null default true          -- admin switch for "Pay online" at checkout
 );
 
 create table if not exists categories (
@@ -73,6 +74,10 @@ create table if not exists orders (
   items jsonb not null,           -- snapshot: sku, name, weight, rate and price at order time
   total numeric(12,2) not null,
   status text not null default 'new' check (status in ('new','confirmed','packed','out_for_delivery','delivered','cancelled')),
+  payment_status text not null default 'unpaid' check (payment_status in ('unpaid','pending','paid','failed','refunded','review')),
+  payment_ref text,               -- SkipCash payment id for online payments
+  paid_amount numeric(12,2),
+  paid_at timestamptz,
   created_at timestamptz not null default now()
 );
 create index if not exists orders_created_idx on orders(created_at desc);
