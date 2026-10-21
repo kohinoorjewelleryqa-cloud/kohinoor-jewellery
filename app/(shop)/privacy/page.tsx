@@ -31,7 +31,7 @@ export default async function Page() {
           <li><b>Delivery checks:</b> our delivery staff may ask to see your QID or passport to make sure the order reaches the right person. We do not keep a copy of it.</li>
           <li><b>Technical data:</b> like any website, our hosting provider automatically processes basic technical information such as your IP address and browser type to deliver pages securely.</li>
         </ul>
-        <p>We do not collect card numbers on this website, and we do not ask for sensitive personal data. If you pay online, we keep the payment reference and status that SkipCash sends us.</p>
+        <p>We do not collect card numbers on this website, and we do not ask for sensitive personal data.</p>
 
         <h2>3. Data stored on your own device</h2>
         <p>Your shopping bag, wishlist, recently viewed pieces and light/dark display setting are saved in your own browser so they are there when you return. This information stays on your device and is not sent to us until you place an order. We do not use advertising or tracking cookies.</p>
@@ -51,7 +51,6 @@ export default async function Page() {
           <li>With our staff and delivery team, to fulfil your order.</li>
           <li>With the technical providers that host this website and store our order database. Their servers may be located outside Qatar; we use reputable providers that protect data with encryption and access controls.</li>
           <li>With WhatsApp (Meta), when you choose to contact us or order through WhatsApp. Their own privacy policy applies to that service.</li>
-          <li>With SkipCash, our online payment provider, when you choose to pay online: your name, mobile number, email address, order number and amount, so it can process the payment. You enter your card details directly on SkipCash&apos;s secure page; we never receive them.</li>
           <li>With government authorities, courts or regulators in Qatar, when the law requires it.</li>
         </ul>
 

@@ -44,8 +44,7 @@ export default async function Page() {
         <p>An order placed on the website or by WhatsApp is a request to buy. A binding sale exists only once our team confirms the order with you by phone, WhatsApp or email. We may decline or cancel an order if a piece is out of stock, if we cannot reach you to confirm, if the delivery details are incomplete, or if we have reasonable grounds to suspect fraud. If you have already paid for a cancelled order, we will refund you in full.</p>
 
         <h2>5. Payment</h2>
-        <p>You can pay by cash on delivery, by card on delivery, or when you collect your order at our showroom. Where shown at checkout, you can also pay online by debit or credit card, Apple Pay or Google Pay through SkipCash, a payment provider licensed by the Qatar Central Bank. Online payments are made on SkipCash&apos;s secure page: we never see or store your card details.</p>
-        <p>An order paid online is confirmed once SkipCash confirms the payment. If an online payment fails, your card is not charged and you can try again or choose to pay on delivery. Refunds for online payments are made back to the same card. Ownership of the jewellery passes to you once it has been paid for in full.</p>
+        <p>You can pay by cash on delivery or by card on delivery. We do not take payments or collect card details on this website. Ownership of the jewellery passes to you once it has been paid for in full.</p>
 
         <h2>6. Delivery</h2>
         <ul>

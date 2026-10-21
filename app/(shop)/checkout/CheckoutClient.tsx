@@ -8,7 +8,7 @@ import { PAY_ONLINE, QATAR_AREAS } from "@/lib/constants";
 import { qar } from "@/lib/pricing";
 import { placeOrder, type CheckoutResult } from "./actions";
 
-const PAYMENTS = ["Cash on delivery", "Card on delivery", "Pay at showroom pickup"];
+const PAYMENTS = ["Cash on delivery", "Card on delivery"];
 /** Remembered across the trip to the payment page, so the customer can retry if the card fails. */
 export const PAY_KEY = "kj_pay";
 const SLOTS = ["Today, 6–9 pm (in-stock, Doha)", "Tomorrow, 10 am–1 pm", "Tomorrow, 4–8 pm", "Showroom pickup"];

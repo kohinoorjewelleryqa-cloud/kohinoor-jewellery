@@ -53,6 +53,8 @@ export const DEFAULT_COLLECTIONS = [
 
 export const QATAR_AREAS = ["Doha", "Lusail", "Al Wakrah", "Al Rayyan", "Al Khor", "Umm Salal", "Al Daayen", "Mesaieed", "Dukhan", "Al Shamal"];
 
+/** SkipCash online payment is paused at the client's request. Set to true (and add the keys in Vercel) to bring it back. */
+export const ONLINE_PAYMENTS_ENABLED = false;
 /** Checkout option for SkipCash online payment (shown only when SkipCash keys are set). */
 export const PAY_ONLINE = "Pay online now (card / Apple Pay)";
 export const PAYMENT_STATUS_LABEL: Record<string, string> = { unpaid: "Pay on delivery", pending: "Awaiting payment", paid: "Paid online", failed: "Payment failed", refunded: "Refunded", review: "Paid – check amount" };

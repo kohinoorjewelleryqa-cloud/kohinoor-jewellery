@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import RatesEditor from "@/components/admin/RatesEditor";
-import OnlinePayments from "@/components/admin/OnlinePayments";
 import { supabaseBrowser } from "@/lib/supabase-browser";
 import { refreshShop } from "@/lib/admin";
 
@@ -38,7 +37,6 @@ export default function SettingsPage() {
           <button className="btn p" style={{ marginTop: 14 }} type="submit">Save settings</button>
         </form>
         <RatesEditor />
-        <OnlinePayments />
       </div>
     </>
   );

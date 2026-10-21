@@ -1,6 +1,7 @@
 import "server-only";
 import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
 import { serviceClient, supabaseConfigured } from "./supabase-server";
+import { ONLINE_PAYMENTS_ENABLED } from "./constants";
 
 // SkipCash online payments (Qatar Central Bank licensed gateway).
 // Turned on by adding these environment variables in Vercel (from the SkipCash merchant portal):
@@ -17,7 +18,7 @@ const KEY_SECRET = env("SKIPCASH_KEY_SECRET");
 const WEBHOOK_KEY = env("SKIPCASH_WEBHOOK_KEY");
 const BASE = /^(yes|true|1|live)$/i.test(env("SKIPCASH_LIVE")) ? "https://api.skipcash.app" : "https://skipcashtest.azurewebsites.net";
 
-export const skipcashEnabled = Boolean(CLIENT_ID && KEY_ID && KEY_SECRET && supabaseConfigured);
+export const skipcashEnabled = ONLINE_PAYMENTS_ENABLED && Boolean(CLIENT_ID && KEY_ID && KEY_SECRET && supabaseConfigured);
 export const skipcashLive = BASE === "https://api.skipcash.app";
 /** Online payment is offered only when the keys are set AND the admin switch is on. */
 export const onlinePaymentsOn = (settings: { online_payments?: boolean }) => skipcashEnabled && settings.online_payments !== false;

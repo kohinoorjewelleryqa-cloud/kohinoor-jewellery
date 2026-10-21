@@ -23,6 +23,7 @@ export async function placeOrder(input: CheckoutInput): Promise<CheckoutResult> 
   if (phone.replace(/\D/g, "").length < 8) return { ok: false, error: "Please enter a valid mobile number (8 digits for Qatar)." };
   if (!Array.isArray(input.lines) || !input.lines.length) return { ok: false, error: "Your bag is empty." };
   const online = clean(input.payment, 40) === PAY_ONLINE;
+  if (!online && !["Cash on delivery", "Card on delivery"].includes(clean(input.payment, 40))) input.payment = "Cash on delivery";
   const email = clean(input.email, 120);
   if (online && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { ok: false, error: "Please enter your email address. It is needed for your online payment receipt." };
 
