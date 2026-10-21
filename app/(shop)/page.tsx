@@ -64,16 +64,6 @@ export default async function Home() {
 
       <Rail eyebrow="Antique finish" title="Oxidised favourites" href="/collections/oxidised-heritage" items={oxidised} />
 
-      <section className="story"><div className="wrap">
-        <div className="story-im"><img {...photo(PHOTOS.display, 1400)} alt="Sterling silver jewellery on display" loading="lazy" /></div>
-        <div className="story-t">
-          <small>The Kohinoor promise</small>
-          <h2>Pure 925 silver, finished by hand</h2>
-          <p>Every piece is made in hallmarked sterling silver, polished and checked by hand before it reaches you. Prices follow the day&apos;s silver rate, and the making charge is always shown.</p>
-          <div className="story-stats num"><div><b>925</b><span>Hallmark on every piece</span></div><div><b>{products.length.toLocaleString("en-US")}</b><span>Designs online</span></div><div><b>Same day</b><span>Delivery in Doha</span></div></div>
-          <Link className="btn p" href="/about">Our story</Link>
-        </div>
-      </div></section>
 
       <section className="row"><div className="wrap"><div className="sh"><h2><small>Moments</small>Shop by occasion</h2></div>
         <div className="occ">{OCCASIONS.map((o) => <Link key={o} href={`/shop?occ=${encodeURIComponent(o)}`}><span className="c">{OCC_PHOTO[o] ? <img {...photo(OCC_PHOTO[o], 400)} alt="" loading="lazy" /> : null}</span>{o}</Link>)}</div>
