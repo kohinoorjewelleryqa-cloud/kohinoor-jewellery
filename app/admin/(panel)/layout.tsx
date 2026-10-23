@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import TableLabels from "@/components/admin/TableLabels";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { supabaseBrowser, browserConfigured } from "@/lib/supabase-browser";
@@ -49,6 +50,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
       <main className="adm-main">{children}</main>
+      <TableLabels />
     </div>
   );
 }

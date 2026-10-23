@@ -677,3 +677,35 @@ h1,h2,h3,.sh h2,.pagehead h1,.shophead h1,.pdp h1{letter-spacing:-.005em}
   .slide.photo::after{background:linear-gradient(0deg,rgba(38,6,18,.92) 0%,rgba(38,6,18,.55) 50%,rgba(38,6,18,.05) 85%)}
   .dots{bottom:12px}
 }
+
+/* ===== admin on phones: normal page flow, nothing wider than the screen, tables as cards ===== */
+@media (max-width:900px){
+  .adm{display:block}
+  .adm-main{max-width:none}
+  .adm-main>*,.adm .panel>*,.adm .form>*,.adm .field,.adm .bar>*{min-width:0}
+  .adm .field input,.adm .field select,.adm .field textarea{width:100%;min-width:0;max-width:100%}
+  .adm .form{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .adm .tbl-wrap{background:none;border:0;border-radius:0;overflow:visible}
+  .adm .tbl,.adm .tbl tbody{display:block;width:100%}
+  .adm .tbl thead{display:none}
+  .adm .tbl tr{display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 14px;margin-bottom:10px}
+  .adm .tbl td{display:flex;align-items:center;gap:12px;padding:6px 0;border:0;white-space:normal;text-align:start;min-width:0;overflow-wrap:anywhere}
+  .adm .tbl td[data-label]::before{content:attr(data-label);flex:0 0 92px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .adm .tbl td:first-child{font-size:15px}
+  .adm .tbl td:empty{display:none}
+  .adm .tbl td>*{min-width:0}
+  .adm .tbl td input,.adm .tbl td select,.adm .tbl td textarea{flex:1;width:100%!important;min-width:0!important}
+  .adm .tbl td[colspan]{display:block;text-align:center}
+  .adm .tbl tr.click:hover td{background:none}
+  .adm .tbl tr.click:active{background:var(--bg)}
+  .adm .bar{flex-direction:column;align-items:stretch}
+  .adm .bar .grow{min-width:0}
+}
+
+/* ===== no zooming on phones ===== */
+/* iPhones zoom in when a text box under 16px is tapped; 16px stops that. Nothing may be wider than the screen. */
+@media (max-width:900px){input,select,textarea{font-size:16px!important}}
+html,body{overflow-x:clip}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}

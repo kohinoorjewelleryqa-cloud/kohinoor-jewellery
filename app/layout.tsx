@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   description: "Shop 925 sterling silver rings, earrings, necklaces, bracelets and anklets online in Qatar. Same-day delivery in Doha.",
   openGraph: { siteName: "Kohinoor Jewellery", type: "website", locale: "en_QA" },
 };
-export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#6E0F2C" };
+// No pinch or double-tap zoom on phones (the layout is built to fit every screen).
+export const viewport: Viewport = { width: "device-width", initialScale: 1, maximumScale: 1, userScalable: false, viewportFit: "cover", themeColor: "#6E0F2C" };
 
 const themeScript = `try{var t=localStorage.getItem("kj_theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`;
 
