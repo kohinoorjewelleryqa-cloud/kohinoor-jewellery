@@ -10,16 +10,19 @@ import type { PricedProduct } from "@/lib/types";
 export const revalidate = 600;
 
 const OCC_PHOTO: Record<string, string> = {
-  Everyday: PHOTOS.earrings[0], Office: PHOTOS.necklaces[3], Party: PHOTOS.lifestyle[2], Eid: PHOTOS.oxidised,
-  Birthday: PHOTOS.necklaces[0], Anniversary: PHOTOS.rings[1], "National Day": PHOTOS.sets[0], Gifting: PHOTOS.pearl[0],
+  Everyday: PHOTOS.earrings[1], Office: PHOTOS.necklaces[2], Party: PHOTOS.lifestyle[1], Eid: PHOTOS.oxidised,
+  Birthday: PHOTOS.bracelets[2], Anniversary: PHOTOS.rings[1], "National Day": PHOTOS.display, Gifting: PHOTOS.pearl[1],
 };
 const CAT_PHOTO: Record<string, string> = {
-  rings: PHOTOS.rings[2], earrings: PHOTOS.oxidised, necklaces: PHOTOS.necklaces[0], bracelets: PHOTOS.bracelets[0], anklets: PHOTOS.display, sets: PHOTOS.sets[0],
+  rings: PHOTOS.rings[0], earrings: PHOTOS.earrings[0], necklaces: PHOTOS.necklaces[0], bracelets: PHOTOS.bracelets[0], anklets: PHOTOS.anklets[0], sets: PHOTOS.sets[0],
+  men: PHOTOS.men[0], kids: PHOTOS.anklets[1],
 };
 const COL_PHOTO: Record<string, string> = {
-  "everyday-sterling": PHOTOS.lifestyle[0], "oxidised-heritage": PHOTOS.oxidised, "golden-touch": "1599643478518-a784e5dc4c8f",
-  "doha-pearl": PHOTOS.pearl[0], "men-in-silver": PHOTOS.necklaces[3],
+  "everyday-sterling": PHOTOS.earrings[3], "oxidised-heritage": PHOTOS.heritage, "golden-touch": "1599643478518-a784e5dc4c8f",
+  "doha-pearl": PHOTOS.pearl[0], "men-in-silver": PHOTOS.men[0],
 };
+
+const MARQUEE = ["925 hallmarked silver", "Same-day delivery in Doha", "Cash or card on delivery", "Priced on today's silver rate", "Free cleaning & polishing", "Gift-boxed for every occasion"];
 
 function Rail({ eyebrow, title, href, items }: { eyebrow: string; title: string; href: string; items: PricedProduct[] }) {
   if (!items.length) return null;
@@ -45,11 +48,15 @@ export default async function Home() {
     <main>
       <section className="hero"><div className="wrap">
         <HeroSlider>
-          <div className="slide photo"><img {...photo(PHOTOS.lifestyle[0], 1800)} alt="Woman wearing a sterling silver necklace" fetchPriority="high" /><div className="copy"><span className="eyebrow">925 Sterling Silver</span><h1>Silver that shines <i>every day</i></h1><p>Rings, earrings, necklaces and anklets in hallmarked sterling silver, delivered across Qatar.</p><Link className="btn g" href="/shop">Shop all silver</Link></div></div>
-          <div className="slide photo"><img {...photo(PHOTOS.oxidised, 1800)} alt="Oxidised silver earrings" loading="lazy" /><div className="copy"><span className="eyebrow">Oxidised Heritage</span><h2>Antique silver, <i>made for Eid</i></h2><p>Oxidised jhumkas, chokers and payals with turquoise and ruby accents.</p><Link className="btn g" href="/collections/oxidised-heritage">Shop the collection</Link></div></div>
+          <div className="slide photo"><img {...photo(PHOTOS.lifestyle[0], 1800)} alt="Woman wearing silver bracelets and rings" fetchPriority="high" /><div className="copy"><span className="eyebrow">925 Sterling Silver</span><h1>Silver that shines <i>every day</i></h1><p>Rings, earrings, necklaces and anklets in hallmarked sterling silver, delivered across Qatar.</p><Link className="btn g" href="/shop">Shop all silver</Link></div></div>
+          <div className="slide photo"><img {...photo(PHOTOS.heritage, 1800)} alt="Traditional silver jewellery with turquoise and pearl" loading="lazy" /><div className="copy"><span className="eyebrow">Oxidised Heritage</span><h2>Antique silver, <i>made for Eid</i></h2><p>Oxidised jhumkas, chokers and payals with turquoise and ruby accents.</p><Link className="btn g" href="/collections/oxidised-heritage">Shop the collection</Link></div></div>
           <div className="slide photo"><img {...photo(PHOTOS.sets[0], 1800)} alt="Silver necklace and earring set" loading="lazy" /><div className="copy"><span className="eyebrow">Ready to gift</span><h2>Sets made for <i>celebrations</i></h2><p>Matching necklace and earring sets, gift-boxed and delivered the same day in Doha.</p><Link className="btn g" href="/jewellery/sets">Shop jewellery sets</Link></div></div>
         </HeroSlider>
       </div></section>
+
+      <div className="marquee" aria-hidden="true"><div className="mq-track">
+        {[0, 1, 2, 3].map((n) => <div className="mq-group" key={n}>{MARQUEE.map((x) => <span key={x}>{x}<i>✦</i></span>)}</div>)}
+      </div></div>
 
       <section className="row"><div className="wrap"><div className="sh"><h2><small>{products.length.toLocaleString("en-US")} designs</small>Shop by category</h2><Link href="/shop">View all →</Link></div>
         <div className="occ cats">{categories.map((c) => (
@@ -87,7 +94,7 @@ export default async function Home() {
       <Rail eyebrow="Just in" title="New arrivals" href="/new-arrivals" items={fresh} />
 
       <section className="row"><div className="wrap"><div className="sh"><h2><small>Styled in silver</small>Wear it your way</h2><Link href="/shop">Shop the looks →</Link></div>
-        <div className="looks">{PHOTOS.lifestyle.map((id, i) => <Link key={id} href={["/jewellery/necklaces", "/jewellery/earrings", "/jewellery/sets", "/jewellery/earrings", "/jewellery/necklaces"][i]}><img {...photo(id, 600)} alt="Customer wearing Kohinoor silver" loading="lazy" /></Link>)}</div>
+        <div className="looks">{PHOTOS.lifestyle.map((id, i) => <Link key={id} href={["/jewellery/bracelets", "/jewellery/earrings", "/jewellery/necklaces", "/jewellery/bracelets", "/jewellery/bracelets"][i]}><img {...photo(id, 600)} alt="Customer wearing Kohinoor silver" loading="lazy" /></Link>)}</div>
       </div></section>
 
       <section className="row"><div className="wrap"><div className="sh"><h2><small>Gift guide</small>Shop by recipient</h2></div>
