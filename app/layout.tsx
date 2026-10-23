@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: { siteName: "Kohinoor Jewellery", type: "website", locale: "en_QA" },
 };
 // No pinch or double-tap zoom on phones (the layout is built to fit every screen).
-export const viewport: Viewport = { width: "device-width", initialScale: 1, maximumScale: 1, userScalable: false, viewportFit: "cover", themeColor: "#6E0F2C" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, maximumScale: 1, userScalable: false, viewportFit: "cover", themeColor: "#0D1B36" };
 
 const themeScript = `try{var t=localStorage.getItem("kj_theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`;
 
