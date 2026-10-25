@@ -17,7 +17,7 @@ export default function CartPage() {
       <nav className="crumbs" aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><span>Shopping bag</span></nav>
       <div className="pagehead"><h1>Shopping bag</h1></div>
       {!ready || products === null ? <p className="intro-seo">Loading your bag…</p> : !lines.length ? (
-        <div className="panel confirm"><b className="big">Your bag is empty</b><span style={{ color: "var(--muted)" }}>Browse our designs and add your favourites.</span><Link className="btn p" href="/shop">Start shopping</Link></div>
+        <div className="panel confirm empty"><span className="empty-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 8h14l-1 12H6L5 8z" /><path d="M9 8V6a3 3 0 0 1 6 0v2" /></svg></span><b className="big">Your bag is empty</b><span style={{ color: "var(--muted)" }}>Browse our designs and add your favourites.</span><Link className="btn p" href="/shop">Start shopping</Link></div>
       ) : (
         <div className="two">
           <div className="panel"><h2>{lines.length} {lines.length === 1 ? "piece" : "pieces"}</h2>

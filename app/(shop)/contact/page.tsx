@@ -13,7 +13,7 @@ export default async function Contact() {
           <div><b>Email</b><span>{settings.email}</span></div>
         </div>
         <p>{settings.hours}</p>
-        <p><a className="btn wa-btn" href={`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent("Hello Kohinoor Jewellery, I have a question.")}`} target="_blank" rel="noopener">Chat on WhatsApp</a> <a className="btn o" href={`tel:${settings.phone.replace(/\s/g, "")}`}>Call the showroom</a> <a className="btn o" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Kohinoor Jewellery, ${settings.address}`)}`} target="_blank" rel="noopener">Get directions</a></p>
+        <div className="cta-row"><a className="btn wa-btn" href={`https://wa.me/${settings.whatsapp}?text=${encodeURIComponent("Hello Kohinoor Jewellery, I have a question.")}`} target="_blank" rel="noopener">Chat on WhatsApp</a> <a className="btn o" href={`tel:${settings.phone.replace(/\s/g, "")}`}>Call the showroom</a> <a className="btn o" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Kohinoor Jewellery, ${settings.address}`)}`} target="_blank" rel="noopener">Get directions</a></div>
       </div>
     </SimplePage>
   );

@@ -869,3 +869,16 @@ body:has(.buybar.on) .wa-float,body:has(.buybar.on) .wa{bottom:calc(84px + env(s
 
 header.site{transition:box-shadow .35s ease}
 :root[data-scrolled] header.site{box-shadow:0 10px 30px -18px rgba(13,27,54,.35)}
+
+/* empty bag / wishlist: centred, calm, with space before the footer */
+.confirm.empty{padding:48px 24px 52px;gap:12px;margin-bottom:56px}
+.confirm.empty b.big{font-size:clamp(24px,5.4vw,30px)}
+.confirm.empty>span:not(.empty-ic){max-width:34ch;line-height:1.5}
+.confirm.empty .btn{margin-top:8px;min-width:200px}
+.empty-ic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:var(--tile);color:var(--maroon);margin-bottom:4px}
+.empty-ic svg{width:28px;height:28px}
+
+/* contact buttons: equal size, in a tidy grid */
+.cta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:18px 0 48px;max-width:680px}
+.cta-row .btn{width:100%;min-height:50px;justify-content:center}
+@media (max-width:520px){.cta-row{grid-template-columns:1fr}}
