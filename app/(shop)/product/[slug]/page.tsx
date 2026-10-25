@@ -46,7 +46,7 @@ export default async function ProductPage({ params }: Props) {
       <div className="pdp">
         <ProductGallery p={p} />
         <div className="info">
-          <span className="sku num">{p.sku} · {m?.label}</span>
+          <span className="sku num">{m?.label}, SKU {p.sku}</span>
           <h1>{p.name}</h1>
           <div className="price num">{qar(p.price)} {p.was ? <s style={{ fontSize: 16, color: "var(--muted)", fontWeight: 400 }}>{qar(p.was)}</s> : null}<small>{p.isFixed ? "Inclusive of all charges." : "Inclusive of all charges. Updates daily with the silver rate."}</small></div>
           <ProductActions id={p.id} name={p.name} sku={p.sku} price={qar(p.price)} sizes={c?.sizes ?? []} sizeLabel={p.category === "necklaces" ? "Length" : "Size"} whatsapp={cat.settings.whatsapp} url={url} />
