@@ -2,27 +2,22 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-/** Things that rise into view as you scroll, one after another within each group. */
+/** Things that rise into view as you scroll, in order (each group staggers its own items). */
 const REVEAL = [
-  ".sh", ".occ > a", ".rail > *", ".grid > *", ".cols > *", ".metals > a", ".looks > a", ".recip > a",
-  ".seo .wrap > div > *", ".catgrid > a", ".marquee", ".fgrid > *",
+  ".sh", ".sh-row", ".steps li", ".cat", ".budget", ".stone-tile", ".ug-opt", ".ug-rates > div", ".ug-band", ".rail > *", ".grid > *", ".rate-card", ".create-card", ".craft-copy > *",
+  ".faq-short details", ".faq-short > a", ".work figure", ".masonry figure", ".contact-grid > *", ".rates-big > div",
+  ".prose > p", ".prose > section", ".prose-pic", ".create-strip", ".tabs", ".dhead", ".panel",
 ].join(",");
 
+const toLatin = (s: string) => s.replace(/[٠-٩]/g, (c) => String(c.charCodeAt(0) - 0x660)).replace(/[٬,]/g, "");
+
 /**
- * Site animations: scroll reveals, 3D tilt with a silver glare on product photos and category circles,
- * and a soft light that follows the pointer across the hero. Off for visitors who prefer reduced motion.
+ * Site animations: scroll reveals, counting gold rates, 3D tilt on design cards and the hero spotlight.
+ * Does nothing for visitors who have asked their device for reduced motion.
  */
 export default function Motion() {
   const path = usePathname();
   const qs = useSearchParams()?.toString();
-
-  // The header gains a soft shadow once the page moves, so it reads as floating above the content.
-  useEffect(() => {
-    const root = document.documentElement;
-    const on = () => root.toggleAttribute("data-scrolled", window.scrollY > 8);
-    on(); window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
-  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -30,51 +25,71 @@ export default function Motion() {
     root.classList.add("motion");
     const cleanups: (() => void)[] = [];
 
-    // 1) Reveal on scroll. Only things below the first screen are hidden first, so nothing visible blinks.
-    const els = Array.from(document.querySelectorAll<HTMLElement>(REVEAL)).filter(
-      (el) => !el.closest("header,.drawer,.adm") && el.dataset.r === undefined && el.getBoundingClientRect().top > window.innerHeight * 0.9,
-    );
+    // 1) Reveal on scroll, staggered within each group of siblings.
+    const els = Array.from(document.querySelectorAll<HTMLElement>(REVEAL)).filter((el) => !el.closest(".site-head,.drawer,.site-foot") && el.dataset.r === undefined && el.getBoundingClientRect().top > window.innerHeight * 0.9);
     els.forEach((el) => {
       const sibs = el.parentElement ? Array.from(el.parentElement.children).filter((c) => (c as HTMLElement).matches(REVEAL)) : [el];
       el.dataset.r = "";
-      el.style.setProperty("--d", `${Math.min(Math.max(0, sibs.indexOf(el)), 8) * 70}ms`);
+      el.style.setProperty("--d", `${Math.min(sibs.indexOf(el), 10) * 70}ms`);
     });
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (!e.isIntersecting) return;
-        // Side-scrolling rows reveal together (cards off to the side never "enter" the screen).
-        const parent = e.target.parentElement;
-        const group = parent && parent.matches(".rail,.cols.scroll,.looks") ? Array.from(parent.children) : [e.target];
+        // Side-scrolling rows: reveal the whole row together (cards off to the side never "enter" the screen).
+        const group = e.target.parentElement?.matches(".rail") ? Array.from(e.target.parentElement.children) : [e.target];
         group.forEach((el) => { el.classList.add("in"); io.unobserve(el); });
       });
-    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.06 });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
     els.forEach((el) => io.observe(el));
+    // (The section is watched, not the photo: a fully clipped photo never counts as "on screen".)
+    document.querySelectorAll(".craft").forEach((el) => io.observe(el));
     cleanups.push(() => io.disconnect());
 
+    // 2) Gold rates count up when they come into view.
+    const nums = Array.from(document.querySelectorAll<HTMLElement>(".rate-card dd bdi, .rates-big b bdi"));
+    const ar = root.lang === "ar";
+    const counter = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        counter.unobserve(e.target);
+        const el = e.target as HTMLElement;
+        const end = Number(toLatin(el.dataset.v ?? (el.dataset.v = el.textContent ?? "")));
+        if (!Number.isFinite(end) || end <= 0) return;
+        const t0 = performance.now(), dur = 1400;
+        const step = (t: number) => {
+          const k = Math.min(1, (t - t0) / dur), eased = 1 - Math.pow(1 - k, 4);
+          el.textContent = Math.round(end * eased).toLocaleString(ar ? "ar-QA" : "en-US");
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.6 });
+    nums.forEach((n) => counter.observe(n));
+    cleanups.push(() => counter.disconnect());
+
     if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      // 2) Product photos and category circles tilt towards the pointer with a silver glare.
-      const sel = ".card .im,.occ .c,.coll .im";
+      // 3) Design cards tilt towards the pointer, with a moving gold glare.
       const onMove = (ev: PointerEvent) => {
-        const el = (ev.target as HTMLElement).closest?.<HTMLElement>(sel);
-        if (!el) return;
-        const r = el.getBoundingClientRect();
+        const card = (ev.target as HTMLElement).closest<HTMLElement>(".dimg,.cat-c");
+        if (!card) return;
+        const r = card.getBoundingClientRect();
         const x = (ev.clientX - r.left) / r.width, y = (ev.clientY - r.top) / r.height;
-        el.style.setProperty("--rx", `${(0.5 - y) * 10}deg`);
-        el.style.setProperty("--ry", `${(x - 0.5) * 12}deg`);
-        el.style.setProperty("--gx", `${x * 100}%`);
-        el.style.setProperty("--gy", `${y * 100}%`);
-        el.classList.add("tilt");
+        card.style.setProperty("--rx", `${(0.5 - y) * 12}deg`);
+        card.style.setProperty("--ry", `${(x - 0.5) * 14}deg`);
+        card.style.setProperty("--gx", `${x * 100}%`);
+        card.style.setProperty("--gy", `${y * 100}%`);
+        card.classList.add("tilt");
       };
-      const onOut = (ev: PointerEvent) => {
-        const el = (ev.target as HTMLElement).closest?.<HTMLElement>(sel);
-        if (el && !el.contains(ev.relatedTarget as Node)) { el.classList.remove("tilt"); el.style.removeProperty("--rx"); el.style.removeProperty("--ry"); }
+      const onLeave = (ev: PointerEvent) => {
+        const card = (ev.target as HTMLElement).closest?.<HTMLElement>(".dimg,.cat-c");
+        if (card && !card.contains(ev.relatedTarget as Node)) { card.classList.remove("tilt"); card.style.removeProperty("--rx"); card.style.removeProperty("--ry"); }
       };
       document.addEventListener("pointermove", onMove);
-      document.addEventListener("pointerout", onOut);
-      cleanups.push(() => { document.removeEventListener("pointermove", onMove); document.removeEventListener("pointerout", onOut); });
+      document.addEventListener("pointerout", onLeave);
+      cleanups.push(() => { document.removeEventListener("pointermove", onMove); document.removeEventListener("pointerout", onLeave); });
 
-      // 3) A soft silver light follows the pointer across the hero.
-      const hero = document.querySelector<HTMLElement>(".slides");
+      // 4) A soft gold light follows the pointer across the hero.
+      const hero = document.querySelector<HTMLElement>(".hero");
       if (hero) {
         let raf = 0;
         const move = (ev: PointerEvent) => {
@@ -92,14 +107,6 @@ export default function Motion() {
         cleanups.push(() => { hero.removeEventListener("pointermove", move); hero.removeEventListener("pointerleave", leave); });
       }
     }
-
-    // 4) Header gets a soft shadow once the page scrolls.
-    const head = document.querySelector<HTMLElement>("header.site");
-    const onScroll = () => head?.classList.toggle("scrolled", window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    cleanups.push(() => window.removeEventListener("scroll", onScroll));
-
     return () => cleanups.forEach((f) => f());
   }, [path, qs]);
 
