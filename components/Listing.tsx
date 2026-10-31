@@ -39,7 +39,7 @@ export default async function Listing({ base, sp, preset = {}, title, intro, cru
           <Suspense><Chips {...shared} /></Suspense>
           <div className="grid">
             {items.length ? items.map((p) => <ProductCard key={p.id} p={p} />) : (
-              <div className="empty"><b>No pieces match these filters</b>Remove a filter or widen the price range to see more designs.<br /><br /><Link className="btn o" href={base}>Clear all filters</Link></div>
+              <div className="empty">{f.q ? <><b>Nothing found for “{f.q}”</b>Check the spelling or try a simpler word, like ring, jhumka or pearl.</> : <><b>No pieces match these filters</b>Remove a filter or widen the price range to see more designs.</>}<br /><br /><Link className="btn o" href={base}>{f.q ? "Clear search" : "Clear all filters"}</Link></div>
             )}
           </div>
           {pages > 1 && (
